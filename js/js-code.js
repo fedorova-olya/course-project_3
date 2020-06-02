@@ -21,7 +21,6 @@ function postData(form) {
       display: block;
       margin: 0 auto;
     `;
-    //form.append(statusMessage);
     form.insertAdjacentElement('afterEnd', statusMessage);
 
     const request = new XMLHttpRequest();
@@ -76,3 +75,49 @@ function showThanksModal(message) {
     //closeModal();
   }, 4000);
 }
+
+const slides = document.querySelectorAll('.offer__slide'),
+    prev = document.querySelector('.offer__slider-prev'),
+    next = document.querySelector('.offer__slider-next'),
+    total = document.querySelector('#total'),
+    current = document.querySelector('#current');
+  let sliderIndex = 1;
+
+  showSlides(sliderIndex);
+
+  if (slides.length < 10) {
+    total.textContent = `0${slides.length}`;
+  } else {
+    total.textContent = slides.length;
+  }
+
+  function showSlides(n) {
+    if (n > slides.length) {
+      sliderIndex = 1;
+    }
+
+    if (n < 1) {
+      sliderIndex = slides.length;
+    }
+
+    slides.forEach(item => item.style.display = 'none');
+
+    slides[sliderIndex - 1].style.display = 'block';
+
+    if (slides.length < 10) {
+      current.textContent = `0${sliderIndex}`;
+    } else {
+      current.textContent = sliderIndex;
+    }
+  }
+
+  function plusSlided(n) {
+    showSlides(sliderIndex += n);
+  }
+
+  prev.addEventListener('click', () => {
+    plusSlided(-1);
+  });
+  next.addEventListener('click', () => {
+    plusSlided(1);
+  });
