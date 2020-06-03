@@ -1,3 +1,7 @@
+import {
+  getRsource
+} from '../services/services';
+
 function cards() {
   class MenuCard {
     constructor(src, alt, title, text, price, parentSelector, ...classes) {
@@ -39,28 +43,20 @@ function cards() {
     }
   }
 
-  const getRsource = async (url) => {
-    const res = await fetch(url);
 
-    if (!res.ok) {
-      throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-    }
 
-    return await res.json();
-  };
-
-  axios.get('http://localhost:3000/menu')
+  getRsource('http://localhost:3000/menu')
     .then(data => {
-      data.data.forEach(({
+      data.forEach(({
         img,
-        alting,
+        altimg,
         title,
         descr,
         price
       }) => {
-        new MenuCard(img, alting, title, descr, price, '.menu .container').render();
+        new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
       });
     });
 }
 
-module.exports = cards;
+export default cards;
